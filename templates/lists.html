@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Todo App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="/lists">TodoApp</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/lists">Lists</a></li>
+        <li class="nav-item"><a class="nav-link" href="/lists/create">Create</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+<h3>Your Todos</h3>
+<p>Signed in as: {{ .email }}</p>
+<a href="/lists/create" class="btn btn-success mb-3">Create new</a>
+
+{{ if eq (len .todos) 0 }}
+  <div class="alert alert-info">No todos yet</div>
+{{ end }}
+
+<table class="table table-striped">
+  <thead>
+    <tr><th>Title</th><th>Content</th><th>Done</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    {{ range .todos }}
+      <tr>
+        <td>{{ .Title }}</td>
+        <td>{{ .Content }}</td>
+        <td>{{ if .Done }}Yes{{ else }}No{{ end }}</td>
+        <td>
+          <a href="/lists/edit/{{ .ID.Hex }}" class="btn btn-sm btn-primary">Edit</a>
+          <form class="d-inline" method="post" action="/lists/delete/{{ .ID.Hex }}">
+            <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Delete?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{ end }}
+  </tbody>
+</table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
