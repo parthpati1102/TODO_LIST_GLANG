@@ -16,7 +16,6 @@ func RegisterPage(c *gin.Context) {
 }
 
 func LoginPage(c *gin.Context) {
-	// ✅ FIXED: previously "base.html"
 	c.HTML(http.StatusOK, "login.html", gin.H{"error": ""})
 }
 
